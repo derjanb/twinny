@@ -6,13 +6,11 @@ import {
   VSCodeTextField} from "@vscode/webview-ui-toolkit/react"
 
 import { API_PROVIDERS, GLOBAL_STORAGE_KEY } from "../common/constants"
-import { SymmetryModelProvider } from "../common/types"
 
 import { useModels } from "./hooks/useModels"
 import { useOllamaModels } from "./hooks/useOllamaModels"
 import { useProviders } from "./hooks/useProviders"
 import { StorageType, useStorageContext } from "./hooks/useStorageContext"
-import { useSymmetryConnection } from "./hooks/useSymmetryConnection"
 
 import styles from "./styles/providers.module.css"
 
@@ -50,7 +48,6 @@ export const ProviderSelect = () => {
   const { t } = useTranslation()
   const ollamaModels = useOllamaModels()
   const { models } = useModels()
-  const { providers: symmetryProviders } = useSymmetryConnection()
   const { getProvidersByType, setActiveChatProvider, providers, chatProvider } =
     useProviders()
 
@@ -74,9 +71,7 @@ export const ProviderSelect = () => {
   const providerModels =
     effectiveProvider?.provider === API_PROVIDERS.Ollama
       ? ollamaModels.models?.map(({ name }) => name) || []
-      : effectiveProvider?.provider === API_PROVIDERS.Twinny
-        ? symmetryProviders.map((provider: SymmetryModelProvider) => provider.model_name) || []
-        : models[effectiveProvider?.provider as keyof typeof models]?.models || []
+      : models[effectiveProvider?.provider as keyof typeof models]?.models || []
 
   const {
     context: selectedModel,
@@ -135,8 +130,6 @@ export const ProviderSelect = () => {
               </VSCodeOption>
             ))}
           </VSCodeDropdown>
-        ) : effectiveProvider?.provider === API_PROVIDERS.Twinny && symmetryProviders.length === 0 ? (
-          <ModelLoader />
         ) : (
           <VSCodeTextField
             value={selectedModel || effectiveProvider?.modelName || ""}

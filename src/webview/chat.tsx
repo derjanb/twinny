@@ -28,7 +28,6 @@ import { useAutosizeTextArea } from "./hooks/useAutosizeTextArea"
 import { useConversationHistory } from "./hooks/useConversationHistory"
 import { useSelection } from "./hooks/useSelection"
 import { useSuggestion } from "./hooks/useSuggestion"
-import { useSymmetryConnection } from "./hooks/useSymmetryConnection"
 import { useTheme } from "./hooks/useTheme"
 import { useWorkspaceContext } from "./hooks/useWorkspaceContext"
 import { createCustomImageExtension } from "./image-extension"
@@ -60,7 +59,6 @@ export const Chat = (props: ChatProps): JSX.Element => {
   const [messages, setMessages] = useState<ChatCompletionMessage[]>([])
   const [completion, setCompletion] = useState<ChatCompletionMessage | null>()
   const virtuosoRef = useRef<VirtuosoHandle>(null)
-  const { symmetryConnection } = useSymmetryConnection()
   const { contextItems, removeContextItem } = useWorkspaceContext()
   const [isBottom, setIsBottom] = useState(false)
 
@@ -612,7 +610,7 @@ export const Chat = (props: ChatProps): JSX.Element => {
                 </VSCodeButton>
               </div>
             )}
-            {generatingRef.current && !symmetryConnection && (
+            {generatingRef.current && (
               <VSCodeButton
                 type="button"
                 appearance="icon"
@@ -621,20 +619,6 @@ export const Chat = (props: ChatProps): JSX.Element => {
               >
                 <span className="codicon codicon-debug-stop"></span>
               </VSCodeButton>
-            )}
-          </div>
-          <div>
-            <VSCodeBadge>{selection?.length}</VSCodeBadge>
-            {!!symmetryConnection && (
-              <VSCodeBadge
-                title={t("chat-connected-to-provider", {
-                  providerName: symmetryConnection?.name,
-                  modelName: symmetryConnection?.modelName,
-                  providerId: symmetryConnection?.provider
-                })}
-              >
-                ⚡️ {symmetryConnection?.name}
-              </VSCodeBadge>
             )}
           </div>
         </div>
@@ -672,7 +656,7 @@ export const Chat = (props: ChatProps): JSX.Element => {
             </div>
           </div>
         </form>
-        {!symmetryConnection && <ProviderSelect />}
+        <ProviderSelect />
       </div>
     </VSCodePanelView>
   )

@@ -238,19 +238,6 @@ export class ProviderManager {
     } as ServerMessage<string>)
   }
 
-  getTwinnyProvider() {
-    return {
-      apiHostname: "twinny.dev",
-      apiPath: "/v1",
-      apiProtocol: "https",
-      id: "symmetry-default",
-      label: "Twinny.dev (Symmetry)",
-      modelName: "llama3.2:latest",
-      provider: API_PROVIDERS.Twinny,
-      type: "chat"
-    } as TwinnyProvider
-  }
-
   getDefaultLocalProvider() {
     return {
       apiHostname: "localhost",
@@ -298,7 +285,6 @@ export class ProviderManager {
     await this.addDefaultChatProvider()
     await this.addDefaultFimProvider()
     await this.addDefaultEmbeddingsProvider()
-    await this.addTwinnyProvider()
   }
 
   async addDefaultLocalProvider(): Promise<TwinnyProvider> {
@@ -333,17 +319,6 @@ export class ProviderManager {
     ) {
       await this.addDefaultProvider(provider)
     }
-    return provider
-  }
-
-  async addTwinnyProvider(): Promise<TwinnyProvider | null> {
-    const provider = this.getTwinnyProvider()
-    const providers = await this.getProviders()
-    if (!providers) return await this.addProvider(provider)
-    const twinnyProvider = Object.values(providers).find(
-      (p) => p.apiHostname === "twinny.dev"
-    )
-    if (!twinnyProvider) await this.addProvider(provider)
     return provider
   }
 

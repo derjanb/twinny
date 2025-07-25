@@ -30,14 +30,6 @@ import { copy } from "esbuild-plugin-copy";
             from: "./node_modules/web-tree-sitter/tree-sitter.wasm",
             to: "./out/tree-sitter.wasm"
           },
-          {
-            from: "./node_modules/web-tree-sitter/tree-sitter.wasm",
-            to: "./out/tree-sitter.wasm"
-          },
-          {
-            from: "./node_modules/web-tree-sitter/tree-sitter.wasm",
-            to: "./out/tree-sitter.wasm"
-          }
         ],
         watch: true,
       }),
