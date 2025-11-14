@@ -21,7 +21,6 @@ import {
 } from "./common/constants"
 import { logger } from "./common/logger"
 import {
-  FileContextItem,
   SelectionContextItem,
   ServerMessage} from "./common/types"
 import { setContext } from "./extension/context"
@@ -270,11 +269,18 @@ export async function activate(context: ExtensionContext) {
       const editor = window.activeTextEditor
       if (editor) {
         const filePath = workspace.asRelativePath(editor.document.uri.fsPath)
-        const fileContextItem: FileContextItem = {
+        const fileContextItem = {
           id: filePath, // Use filePath as the ID for files
-          category: "file",
+          category: "files" as const,
           name: path.basename(editor.document.uri.fsPath),
-          path: filePath
+          path: filePath,
+          content: "", // Files added as context don't need content
+          selectionRange: {
+            startLine: 0,
+            startCharacter: 0,
+            endLine: 0,
+            endCharacter: 0
+          }
         }
         if (sidebarProvider.addContextItem) {
           sidebarProvider.addContextItem(fileContextItem)

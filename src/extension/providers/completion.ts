@@ -367,6 +367,9 @@ export class CompletionProvider
             const indentationReturned = lines.length > 2 && lastLineIndent <= firstLineIndent;
 
             const structuralBoundaryPattern = /\}\s*\n(\s*)\S+/m.test(this._completion);
+            // Detect statement endings: } followed by optional ) and ;, or ); or };
+            // These patterns indicate the end of a statement that shouldn't continue
+            const endsWithStatementTerminator = /[})]\s*;?\s*$/.test(this._completion);
 
             if (isInsideFunction && this._completion.includes("}")) {
               const lastClosingBraceIndex = this._completion.lastIndexOf("}");
@@ -384,13 +387,19 @@ export class CompletionProvider
               }
             }
 
-            if (structuralBoundaryPattern && hasCompleteSyntax) {
+            // Stop at structural boundaries even if syntax isn't fully balanced
+            // This prevents completions from continuing into new statements/functions
+            if (structuralBoundaryPattern && this._chunkCount >= 2) {
               const match = this._completion.match(/\}\s*\n(\s*)\S+/m);
               if (match && match.index !== undefined) {
                 const closingBracePos = match.index + 1;
-
                 const indentAfterBrace = match[1].length;
-                if (indentAfterBrace <= firstLineIndent) {
+
+                // Stop if: we have a structural boundary AND either:
+                // 1. Syntax is complete, OR
+                // 2. We end with a statement terminator (}));, });, };, etc.), OR
+                // 3. Indentation suggests we're at same or outer scope
+                if (hasCompleteSyntax || endsWithStatementTerminator || indentAfterBrace <= firstLineIndent) {
                   this._completion = this._completion.substring(0, closingBracePos);
                   logger.log(
                     `Trimmed completion at structural boundary: ${this._nonce} \nCompletion: ${this._completion}`
@@ -416,7 +425,9 @@ export class CompletionProvider
                 ) ||
                 endsWithEmptyLine ||
                 (hasEndPattern && hasCompleteSyntax) ||
-                (structuralBoundaryPattern && hasCompleteSyntax)
+                // Stop at structural boundaries even without complete syntax
+                // to prevent continuing into new functions/statements
+                (structuralBoundaryPattern && (hasCompleteSyntax || endsWithStatementTerminator))
               ) {
                 logger.log(
                   `Streaming response end due to completion detection ${this._nonce} \nCompletion: ${this._completion}`
