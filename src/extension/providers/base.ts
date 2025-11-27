@@ -11,9 +11,7 @@ import { logger } from "../../common/logger"
 import {
   AnyContextItem,
   ApiModel,
-  ChatCompletionMessage,
   ClientMessage,
-  InferenceRequest,
   LanguageType,
   ServerMessage,
   ThemeType

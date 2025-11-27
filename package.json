@@ -2,7 +2,7 @@
   "name": "twinny",
   "displayName": "twinny - AI Code Completion and Chat",
   "description": "Locally hosted AI code completion plugin for vscode",
-  "version": "3.23.31",
+  "version": "3.24.0",
   "icon": "assets/icon.png",
   "keywords": [
     "code-inference",
@@ -487,7 +487,6 @@
     "@hyrious/esbuild-plugin-commonjs": "^0.2.4",
     "@types/async-lock": "^1.4.2",
     "@types/cheerio": "^0.22.35",
-    "@types/js-yaml": "^4.0.9",
     "@types/minimatch": "^5.1.2",
     "@types/mocha": "^10.0.6",
     "@types/node": "^16.18.68",
@@ -531,7 +530,6 @@
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "@wasm-tool/wasm-pack-plugin": "^1.7.0",
     "async-lock": "^1.4.1",
-    "b4a": "^1.6.6",
     "cheerio": "^1.0.0",
     "classnames": "^2.5.1",
     "dompurify": "^3.2.3",
@@ -543,7 +541,6 @@
     "i18next": "^23.16.5",
     "i18next-http-backend": "^2.6.2",
     "ignore": "^6.0.2",
-    "js-yaml": "^4.1.0",
     "lucide-react": "^0.473.0",
     "node-polyfill-webpack-plugin": "^3.0.0",
     "onnxruntime-web": "^1.18.0",
@@ -560,8 +557,7 @@
     "tippy.js": "^6.3.7",
     "tiptap-markdown": "^0.8.10",
     "toxe": "^1.1.0",
-    "uuid": "^9.0.1",
-    "ws": "^8.18.0"
+    "uuid": "^9.0.1"
   },
   "os": [
     "darwin",

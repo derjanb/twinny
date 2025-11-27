@@ -220,7 +220,7 @@ export class Chat extends Base {
       if (!documentScores) return ""
 
       const readThreshould = rerankThreshold
-      const readFileChunks = []
+      const readFileChunks: (string | null)[] = []
 
       for (let i = 0; i < relevantFiles.length; i++) {
         if (relevantFiles[i][1] > readThreshould) {
@@ -659,9 +659,7 @@ export class Chat extends Base {
       provider: this.getProviderType(provider) as any
     }
 
-    if (provider.provider !== API_PROVIDERS.Twinny) {
-      delete request.id
-    }
+    delete request.id
 
     return request
   }
@@ -715,7 +713,7 @@ export class Chat extends Base {
       }
     } as ServerMessage<ChatCompletionMessage>)
 
-    let ragContext = undefined
+    let ragContext: string | null = null;
     if (["explain"].includes(template)) {
       ragContext = await this.getRagContext(selection)
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useTranslation } from "react-i18next"
 import {
   VSCodeDropdown,
@@ -13,36 +13,6 @@ import { useProviders } from "./hooks/useProviders"
 import { StorageType, useStorageContext } from "./hooks/useStorageContext"
 
 import styles from "./styles/providers.module.css"
-
-const ModelLoader = () => {
-  const { t } = useTranslation()
-  const [dots, setDots] = useState("")
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDots((prevDots) => {
-        switch (prevDots) {
-          case "":
-            return "."
-          case ".":
-            return ".."
-          case "..":
-            return "..."
-          default:
-            return ""
-        }
-      })
-    }, 500)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className={styles.modelLoader}>
-      <span className={styles.loaderText}>{t("Loading models")}{dots}</span>
-    </div>
-  )
-}
 
 export const ProviderSelect = () => {
   const { t } = useTranslation()

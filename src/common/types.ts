@@ -268,8 +268,6 @@ export interface Peer {
   discovery_key: string
 }
 
-export type ServerMessageKey = keyof typeof serverMessageKeys
-
 export interface InferenceRequest {
   key: string
   messages: ChatCompletionMessage[]

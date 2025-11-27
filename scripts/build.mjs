@@ -7,7 +7,7 @@ import { copy } from "esbuild-plugin-copy";
   const extensionConfig = {
     bundle: true,
     entryPoints: ["src/index.ts"],
-    external: ["vscode", "esbuild", "./xhr-sync-worker.js", "sodium-native", "udx-native", "b4a"],
+    external: ["vscode", "esbuild", "./xhr-sync-worker.js", "sodium-native", "udx-native"],
     format: "cjs",
     outdir: "out",
     platform: "node",

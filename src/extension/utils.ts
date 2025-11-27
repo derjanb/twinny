@@ -44,7 +44,6 @@ import {
   LanguageType,
   PrefixSuffix,
   ServerMessage,
-  ServerMessageKey,
   StreamResponse,
   Theme
 } from "../common/types"
